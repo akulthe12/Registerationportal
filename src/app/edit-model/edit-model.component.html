@@ -1,0 +1,92 @@
+<form [formGroup]="registrationForm" >
+    <!-- Horizontal line -->
+    <div class="horizontal-line">
+        <div class="form-group">
+            <label for="fullName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" formControlName="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" formControlName="lastName" required>
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" formControlName="gender" required>
+                <option value="">Please Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="contactNumber">Contact Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" formControlName="pno" pattern="[0-9]{10}"
+                placeholder="Phone Number"  required>
+        </div>
+    </div>
+    <div class="horizontal-line">
+        <div class="form-group">
+            <label for="emailID">Email ID:</label>
+            <input type="email" id="emailID" name="emailID" formControlName="email" required>
+        </div>
+        <div class="form-group">
+            <label for="designation">Designation:</label>
+            <input type="text" id="designation" name="designation" formControlName="desig" required>
+        </div>
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth:</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" formControlName="dob"  required>
+        </div>
+        <div class="form-group">
+            <label for="age" style="white-space: nowrap;">Populate age as per DOB</label>
+            <input type="text" id="age" name="age" formControlName="age" readonly >
+        </div>
+      
+    </div>
+    
+    
+    <div class="horizontal-line">
+        <div class="form-group">
+            <label for="photo">Upload your photo:</label>
+            <input type="file" id="photo" name="photo" style="border: 1px solid;">
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <select id="country" name="country" formControlName="country" (change)="onCountryChange()"   required>
+              
+                <option value="{{rowData.country}}">{{rowData.country}}</option>
+               
+                <!-- Add more countries here -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select id="c" name="c" formControlName="city">
+                <option value="{{rowData.city}}">{{rowData.city}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" name="state" formControlName="state">
+                <option  value="{{rowData.state}}">{{ rowData.state }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="horizontal-line">
+        <div class="form-group">
+            <label for="pincode">Pincode:</label>
+            <input type="text" id="pincode" style="display: flex;" name="pincode" formControlName="pincode" pattern="[0-9]{6}" required>
+        </div>
+    </div>
+    
+    <!-- Save button -->
+  
+</form>
+<div class="button-container">
+    <button type="submit" class="savebtn" (click)="update()">Update</button>
+    <button mat-button mat-dialog-close class="savebtn">Close</button></div>
+
+
+
+
+

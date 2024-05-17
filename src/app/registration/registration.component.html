@@ -1,0 +1,187 @@
+<header class="header">
+    <div class="logo">
+        <img src=".\assets\Image (1).png" alt="Logo">
+    </div>
+    <div class="user">
+        <img src=".\assets\img_avatar2.png" alt="Avatar" class="avatar">
+        <span style="margin-right: 10px;">{{name}}</span>
+    </div>
+</header>
+
+<nav class="navbar">
+    <div class="left-section">
+        <span id="registration" class="logo">Registration Form</span>
+    </div>
+    <div class="right-section">
+        <a href="#" id="home-link" class="home-icon" (click)="toggleFormVisibility($event)"><i
+                class="fas fa-house-chimney"></i> / Registration Form</a>
+    </div>
+</nav>
+
+
+<div class="registration-form-container" [ngStyle]="{'height': showForm ? 'auto' : '0'}">
+    <div class="registration-form" *ngIf="showForm">
+        <div>
+            <form [formGroup]="registrationForm">
+                <!-- Horizontal line -->
+                <div class="horizontal-line">
+                    <div class="form-group">
+                        <label for="fullName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" formControlName="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" formControlName="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" formControlName="gender" required>
+                            <option value="">Please Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number:</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" (focus)="updatePhoneNumber()"
+                            formControlName="pno" placeholder="Phone Number" maxlength="10" minlength="10" required>
+                        <div *ngIf="registrationForm.get('pno')?.invalid && (registrationForm.get('pno')?.dirty || registrationForm.get('pno')?.touched)"
+                            class="error-message">
+                            <div *ngIf="registrationForm.get('pno')?.errors?.required">Contact Number is required.</div>
+                            <div *ngIf="registrationForm.get('pno')?.errors?.pattern">Invalid Contact Number.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal-line">
+                    <div class="form-group">
+                        <label for="emailID">Email ID:</label>
+                        <input type="email" id="emailID" name="emailID" formControlName="email" required>
+                        <div *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)"
+                            class="error-message">
+                            <div *ngIf="registrationForm.get('email')?.errors?.required">Email is required.</div>
+                            <div *ngIf="registrationForm.get('email')?.errors?.pattern">Invalid email format.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="designation">Designation:</label>
+                        <input type="text" id="designation" name="designation" formControlName="desig" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth:</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" formControlName="dob"
+                            (change)="calculateAge()" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" style="white-space: nowrap;">Populate age as per DOB</label>
+                        <input type="text" id="age" name="age" formControlName="age" readonly (click)="calculateAge()">
+                    </div>
+                </div>
+
+
+                <div class="horizontal-line">
+                    <div class="form-group">
+                        <label for="photo">Upload your photo:</label>
+                        <input type="file" id="photo" name="photo" (change)="handleFileInput($event)"
+                            style="border: 1px solid;">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" formControlName="country" (change)="onCountryChange()"
+                            required>
+                            <option value="">Please Select</option>
+                            <option value="india">India</option>
+                            <option value="usa">USA</option>
+                            <!-- Add more countries here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <select id="city" name="city" formControlName="city">
+                            <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" formControlName="state">
+                            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="horizontal-line">
+                    <div class="form-group">
+                        <label for="pincode">Pincode:</label>
+                        <input type="text" id="pincode" style="display: flex;" name="pincode" formControlName="pincode"
+                            required>
+                        <div *ngIf="registrationForm.get('pincode')?.invalid && (registrationForm.get('pincode')?.dirty || registrationForm.get('pincode')?.touched)"
+                            class="error-message">
+                            <div *ngIf="registrationForm.get('pincode')?.errors?.required">Pincode is required.</div>
+                            <div *ngIf="registrationForm.get('pincode')?.errors?.pattern">Pincode should be 8 digit.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save button -->
+                <button type="submit" class="savebtn" (click)="onSubmit()">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <input type="text" [(ngModel)]="term" placeholder="search...">
+</div>
+
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Contact No</th>
+                <th scope="col">Email ID</th>
+                <th scope="col">Designation</th>
+                <th scope="col">DOB</th>
+                <th scope="col">Age</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Country</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Pincode</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of registrationd | filterpipe:term">
+                <td>{{row.id}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.gender}}</td>
+                <td>{{row.pno}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.desig}}</td>
+                <td>{{row.dob}}</td>
+                <td>{{row.age}}</td>
+                <td>
+
+                    <img [src]="row.image" alt="Uploaded Image" class="avatar">
+                </td>
+                <td>{{row.country}}</td>
+                <td>{{row.city}}</td>
+                <td>{{row.state}}</td>
+                <td>{{row.pincode}}</td>
+                <td>
+                    <button (click)="editDetails(row)"><i class="fa-solid fa-eye" style="color:blue"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="text-align: center;">
+    <button (click)="previousPage()" [disabled]="currentPage == 1">Previous</button>
+    <span>{{ getDisplayedRecords() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage == totalPages">Next</button>
+</div>
